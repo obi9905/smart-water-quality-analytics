@@ -221,13 +221,6 @@ Use the saved evaluation metrics and actual test results when reporting
 model performance. Verify the generated evaluation output before quoting
 specific accuracy figures.
 
-## Team Members
-
-1.  John Obeth
-2.  Rokith
-3.  Thasarathan
-4.  Jeffery Dan J
-
 ## Future Enhancements
 
 -   Complete and verify cloud-based data ingestion.
