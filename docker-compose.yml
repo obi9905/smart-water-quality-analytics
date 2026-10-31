@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  smart-water-analytics:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: smart_water_platform
+    ports:
+      - "8000:8000"
+    environment:
+      - GCP_PROJECT_ID=smart-water-analytics-512816
+      - BIGQUERY_DATASET=smart_water_analytics
+      - ZERO_COST_SANDBOX_MODE=true
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s

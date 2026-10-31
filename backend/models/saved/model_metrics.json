@@ -1,0 +1,255 @@
+{
+  "metadata": {
+    "target_cloud_platform": "Google Cloud Platform (BigQuery ML / Cloud Run)",
+    "gcp_project_id": "smart-water-analytics-512816",
+    "train_samples_count": 4719,
+    "test_samples_count": 982,
+    "train_period": "2004-01-31 to 2017-01-01",
+    "test_period": "2017-01-01 to 2019-09-09 (Covers 2019 Day Zero Drought)",
+    "features_used": [
+      "current_storage_pct",
+      "current_storage_mcft",
+      "days_of_water_left",
+      "storage_pct_lag_1d",
+      "storage_pct_lag_7d",
+      "storage_pct_lag_14d",
+      "storage_pct_lag_30d",
+      "storage_rolling_mean_7d",
+      "storage_rolling_mean_30d",
+      "storage_rolling_std_7d",
+      "storage_7d_delta_mcft",
+      "storage_30d_delta_mcft",
+      "daily_rainfall_mm",
+      "rain_3d_sum_mm",
+      "rain_7d_sum_mm",
+      "rain_14d_sum_mm",
+      "rain_30d_sum_mm",
+      "month",
+      "day_of_year",
+      "quarter",
+      "is_northeast_monsoon",
+      "is_southwest_monsoon",
+      "is_dry_season",
+      "current_risk_score"
+    ],
+    "forecast_horizon_days": 7
+  },
+  "classification": {
+    "classes": [
+      "Low",
+      "Moderate",
+      "Severe",
+      "Critical"
+    ],
+    "models_comparison": {
+      "Baseline_Dummy_MostFrequent": {
+        "accuracy": 0.0,
+        "precision_weighted": 0.0,
+        "recall_weighted": 0.0,
+        "f1_weighted": 0.0,
+        "f1_macro": 0.0,
+        "roc_auc_ovr": "N/A"
+      },
+      "BigQueryML_LogisticRegression": {
+        "accuracy": 0.9409,
+        "precision_weighted": 0.9528,
+        "recall_weighted": 0.9409,
+        "f1_weighted": 0.9458,
+        "f1_macro": 0.7077,
+        "roc_auc_ovr": "N/A"
+      },
+      "RandomForest_Classifier": {
+        "accuracy": 0.942,
+        "precision_weighted": 0.9563,
+        "recall_weighted": 0.942,
+        "f1_weighted": 0.9478,
+        "f1_macro": 0.7098,
+        "roc_auc_ovr": "N/A"
+      },
+      "GradientBoosting_Classifier": {
+        "accuracy": 0.9277,
+        "precision_weighted": 0.95,
+        "recall_weighted": 0.9277,
+        "f1_weighted": 0.9375,
+        "f1_macro": 0.7007,
+        "roc_auc_ovr": "N/A"
+      }
+    },
+    "best_model": "RandomForest_Classifier",
+    "confusion_matrix": [
+      [
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        11,
+        197,
+        6,
+        0
+      ],
+      [
+        0,
+        1,
+        284,
+        7
+      ],
+      [
+        0,
+        0,
+        32,
+        444
+      ]
+    ],
+    "per_class_metrics": {
+      "Low": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1-score": 0.0,
+        "support": 0
+      },
+      "Moderate": {
+        "precision": 0.995,
+        "recall": 0.921,
+        "f1-score": 0.956,
+        "support": 214
+      },
+      "Severe": {
+        "precision": 0.882,
+        "recall": 0.973,
+        "f1-score": 0.925,
+        "support": 292
+      },
+      "Critical": {
+        "precision": 0.984,
+        "recall": 0.933,
+        "f1-score": 0.958,
+        "support": 476
+      }
+    },
+    "top_features": [
+      {
+        "feature": "current_storage_pct",
+        "importance": 0.166
+      },
+      {
+        "feature": "days_of_water_left",
+        "importance": 0.1655
+      },
+      {
+        "feature": "current_storage_mcft",
+        "importance": 0.1197
+      },
+      {
+        "feature": "storage_pct_lag_1d",
+        "importance": 0.1127
+      },
+      {
+        "feature": "current_risk_score",
+        "importance": 0.0815
+      },
+      {
+        "feature": "storage_rolling_mean_7d",
+        "importance": 0.077
+      },
+      {
+        "feature": "storage_pct_lag_7d",
+        "importance": 0.0619
+      },
+      {
+        "feature": "storage_rolling_mean_30d",
+        "importance": 0.0601
+      },
+      {
+        "feature": "storage_pct_lag_14d",
+        "importance": 0.0415
+      },
+      {
+        "feature": "storage_pct_lag_30d",
+        "importance": 0.0269
+      }
+    ]
+  },
+  "regression": {
+    "models_comparison": {
+      "Baseline_Persistence": {
+        "mae_storage_pct": 1.049,
+        "rmse_storage_pct": 2.282,
+        "r2_score": 0.976,
+        "mape_pct": 10.71
+      },
+      "Baseline_Mean": {
+        "mae_storage_pct": 28.415,
+        "rmse_storage_pct": 31.512,
+        "r2_score": -3.5814,
+        "mape_pct": 1106.29
+      },
+      "BigQueryML_LinearRegression": {
+        "mae_storage_pct": 1.15,
+        "rmse_storage_pct": 1.94,
+        "r2_score": 0.9826,
+        "mape_pct": 18.91
+      },
+      "RandomForest_Regressor": {
+        "mae_storage_pct": 2.189,
+        "rmse_storage_pct": 4.279,
+        "r2_score": 0.9155,
+        "mape_pct": 28.34
+      },
+      "GradientBoosting_Regressor": {
+        "mae_storage_pct": 1.44,
+        "rmse_storage_pct": 2.427,
+        "r2_score": 0.9728,
+        "mape_pct": 27.64
+      }
+    },
+    "best_model": "RandomForest_Regressor",
+    "metric_definitions": {
+      "MAE": "Mean Absolute Error in reservoir capacity percentage points.",
+      "RMSE": "Root Mean Squared Error penalizing large prediction deviations.",
+      "R2": "Coefficient of Determination measuring proportion of storage variance explained.",
+      "MAPE": "Mean Absolute Percentage Error relative to actual storage levels."
+    },
+    "error_analysis": {
+      "largest_residuals": [
+        {
+          "date_str": "2017-01-05",
+          "current_storage_pct": 44.33390612281812,
+          "target_future_storage_pct": 13.4484941665913,
+          "predicted_storage_pct": 41.73,
+          "error_abs": 28.28
+        },
+        {
+          "date_str": "2017-03-13",
+          "current_storage_pct": 14.253414126797503,
+          "target_future_storage_pct": 13.484670344578095,
+          "predicted_storage_pct": 33.98,
+          "error_abs": 20.5
+        },
+        {
+          "date_str": "2017-02-15",
+          "current_storage_pct": 14.217237948810707,
+          "target_future_storage_pct": 15.266347110427784,
+          "predicted_storage_pct": 35.28,
+          "error_abs": 20.01
+        },
+        {
+          "date_str": "2017-03-15",
+          "current_storage_pct": 14.063489192366829,
+          "target_future_storage_pct": 13.376141810617709,
+          "predicted_storage_pct": 33.27,
+          "error_abs": 19.89
+        },
+        {
+          "date_str": "2017-03-14",
+          "current_storage_pct": 14.162973681830517,
+          "target_future_storage_pct": 13.34900967712761,
+          "predicted_storage_pct": 32.8,
+          "error_abs": 19.45
+        }
+      ],
+      "limitation_note": "Largest prediction errors occur during sudden catastrophic cyclonic rainfall events (e.g. Cyclone Vardah in Dec 2016 / 2017 monsoon depressions) where hundreds of millimeters of precipitation fall in < 24 hours, causing unforecasted rapid reservoir filling."
+    }
+  }
+}

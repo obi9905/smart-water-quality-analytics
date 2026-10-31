@@ -1,0 +1,236 @@
+{
+  "generated_at": "2026-10-26T16:43:23.764226Z",
+  "cpcb_water_quality": {
+    "dataset_name": "CPCB Indian Water Quality",
+    "source": "Central Pollution Control Board (NWMP)",
+    "records_count": 1991,
+    "columns_count": 12,
+    "year_range": [
+      2003,
+      2014
+    ],
+    "unique_states": 203,
+    "columns": {
+      "STATION CODE": {
+        "total_count": 1991,
+        "missing_count": 122,
+        "missing_pct": 6.13,
+        "unique_values": 321
+      },
+      "LOCATIONS": {
+        "total_count": 1991,
+        "missing_count": 184,
+        "missing_pct": 9.24,
+        "unique_values": 666
+      },
+      "STATE": {
+        "total_count": 1991,
+        "missing_count": 761,
+        "missing_pct": 38.22,
+        "unique_values": 203
+      },
+      "Temp": {
+        "total_count": 1991,
+        "missing_count": 92,
+        "missing_pct": 4.62,
+        "unique_values": 179,
+        "min": 10.0,
+        "max": 35.0,
+        "mean": 26.21,
+        "median": 27.0,
+        "std": 3.37
+      },
+      "D.O. (mg/l)": {
+        "total_count": 1991,
+        "missing_count": 31,
+        "missing_pct": 1.56,
+        "unique_values": 166,
+        "min": 0.0,
+        "max": 11.4,
+        "mean": 6.39,
+        "median": 6.7,
+        "std": 1.33
+      },
+      "PH": {
+        "total_count": 1991,
+        "missing_count": 8,
+        "missing_pct": 0.4,
+        "unique_values": 266,
+        "min": 0.0,
+        "max": 67115.0,
+        "mean": 112.09,
+        "median": 7.3,
+        "std": 1878.93
+      },
+      "CONDUCTIVITY (\u00b5mhos/cm)": {
+        "total_count": 1991,
+        "missing_count": 25,
+        "missing_pct": 1.26,
+        "unique_values": 1005
+      },
+      "B.O.D. (mg/l)": {
+        "total_count": 1991,
+        "missing_count": 43,
+        "missing_pct": 2.16,
+        "unique_values": 408,
+        "min": 0.1,
+        "max": 534.5,
+        "mean": 6.94,
+        "median": 1.9,
+        "std": 29.4
+      },
+      "NITRATENAN N+ NITRITENANN (mg/l)": {
+        "total_count": 1991,
+        "missing_count": 225,
+        "missing_pct": 11.3,
+        "unique_values": 507,
+        "min": 0.0,
+        "max": 108.7,
+        "mean": 1.62,
+        "median": 0.52,
+        "std": 4.09
+      },
+      "FECAL COLIFORM (MPN/100ml)": {
+        "total_count": 1991,
+        "missing_count": 316,
+        "missing_pct": 15.87,
+        "unique_values": 870,
+        "min": 0.0,
+        "max": 272521616.0,
+        "mean": 362529.36,
+        "median": 221.0,
+        "std": 8764767.45
+      },
+      "TOTAL COLIFORM (MPN/100ml)Mean": {
+        "total_count": 1991,
+        "missing_count": 132,
+        "missing_pct": 6.63,
+        "unique_values": 1095,
+        "min": 0.0,
+        "max": 511090873.0,
+        "mean": 533687.17,
+        "median": 468.0,
+        "std": 14234282.67
+      },
+      "year": {
+        "total_count": 1991,
+        "missing_count": 0,
+        "missing_pct": 0.0,
+        "unique_values": 12
+      }
+    }
+  },
+  "cwc_stations": {
+    "dataset_name": "CWC Monitoring Stations & Dams",
+    "source": "Central Water Commission, Ministry of Jal Shakti",
+    "records_count": 1747,
+    "station_types": {
+      "Base": 1393,
+      "Level": 208,
+      "Inflow": 146
+    },
+    "dams_with_frl_count": 149,
+    "columns": {
+      "station_code": {
+        "missing_count": 0,
+        "missing_pct": 0.0,
+        "unique_values": 1747
+      },
+      "name": {
+        "missing_count": 1,
+        "missing_pct": 0.06,
+        "unique_values": 1731
+      },
+      "lat": {
+        "missing_count": 1,
+        "missing_pct": 0.06,
+        "unique_values": 1706,
+        "min": 8.158333333333333,
+        "max": 34.603611111111114,
+        "mean": 22.98
+      },
+      "lon": {
+        "missing_count": 1,
+        "missing_pct": 0.06,
+        "unique_values": 1701,
+        "min": 68.76833333333333,
+        "max": 97.02583333333334,
+        "mean": 81.68
+      },
+      "type": {
+        "missing_count": 0,
+        "missing_pct": 0.0,
+        "unique_values": 3
+      },
+      "nearest_town": {
+        "missing_count": 1619,
+        "missing_pct": 92.67,
+        "unique_values": 119
+      },
+      "warning_level": {
+        "missing_count": 733,
+        "missing_pct": 41.96,
+        "unique_values": 902,
+        "min": 2.5,
+        "max": 4128.383,
+        "mean": 295.96
+      },
+      "danger_level": {
+        "missing_count": 712,
+        "missing_pct": 40.76,
+        "unique_values": 915,
+        "min": 3.4,
+        "max": 4129.383,
+        "mean": 293.05
+      },
+      "frl": {
+        "missing_count": 1598,
+        "missing_pct": 91.47,
+        "unique_values": 145,
+        "min": 10.76,
+        "max": 913.8,
+        "mean": 329.52
+      },
+      "mwl": {
+        "missing_count": 1622,
+        "missing_pct": 92.84,
+        "unique_values": 124,
+        "min": 0.0,
+        "max": 835.0,
+        "mean": 261.25
+      },
+      "highest_flow_level": {
+        "missing_count": 215,
+        "missing_pct": 12.31,
+        "unique_values": 1494,
+        "min": 3.6,
+        "max": 4130.38,
+        "mean": 301.71
+      }
+    }
+  },
+  "reservoir_scarcity": {
+    "dataset_name": "Chennai Reservoir Storage and Rainfall Historical Records",
+    "source": "CMWSSB / Central Water Commission",
+    "records_count": 5738,
+    "start_date": "01-01-2004",
+    "end_date": "16-09-2019",
+    "total_conservation_capacity_mcft": 11057.0,
+    "storage_statistics": {
+      "min_storage_mcft": 0.9,
+      "max_storage_mcft": 10568.0,
+      "mean_storage_mcft": 4195.68,
+      "median_storage_mcft": 3695.5,
+      "min_storage_pct": 0.008,
+      "max_storage_pct": 95.58,
+      "mean_storage_pct": 37.95
+    },
+    "critical_drought_days_under_10pct": 1049,
+    "critical_drought_pct_of_time": 18.28,
+    "rainfall_statistics": {
+      "max_daily_catchment_rain_mm": 319.35,
+      "mean_daily_catchment_rain_mm": 3.68,
+      "annual_rainy_days_avg": 83.3
+    }
+  }
+}
