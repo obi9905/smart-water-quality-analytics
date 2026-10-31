@@ -1,238 +1,248 @@
-# Smart Water Quality and Scarcity Prediction System
+# Smart Water Quality & Scarcity Analytics
 
-[![CI/CD Pipeline](https://github.com/smart-water-analytics/smart-water-analytics/actions/workflows/ci.yml/badge.svg)](https://github.com/)
-[![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
-[![Python](https://img.shields.io/badge/Python-3.11+-3776AB.svg?logo=python&logoColor=white)](https://www.python.org/)
-[![React](https://img.shields.io/badge/React-18.3-61DAFB.svg?logo=react&logoColor=black)](https://react.dev/)
-[![Vite](https://img.shields.io/badge/Vite-6.0-646CFF.svg?logo=vite&logoColor=white)](https://vitejs.dev/)
-[![FastAPI](https://img.shields.io/badge/FastAPI-0.115+-009688.svg?logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
-[![Google Cloud](https://img.shields.io/badge/GCP-BigQuery_Sandbox-4285F4.svg?logo=google-cloud&logoColor=white)](https://cloud.google.com/bigquery)
-[![Budget](https://img.shields.io/badge/Budget-₹0_Free_Tier-emerald.svg)](#cost-and-zero-cost-compliance)
+A data analytics and machine learning project designed to monitor water
+quality, analyze reservoir storage trends, and explore water scarcity
+prediction using historical water datasets.
 
-An end-to-end cloud computing and data analytics platform that analyzes multi-source hydrological datasets, monitors reservoir depletion trends, evaluates drinking water quality across Indian states, and predicts water scarcity risk using **Google Cloud Platform (BigQuery Sandbox / BigQuery ML)** and machine learning ensembles.
+**GitHub Repository:**
+https://github.com/obi9905/smart-water-quality-analytics
 
----
+------------------------------------------------------------------------
 
-## Academic Context
+## Project Overview
 
-- **Degree**: Bachelor of Technology (B.Tech) in Artificial Intelligence & Data Science
-- **Course**: Cloud Computing for Data Analytics
-- **Evaluation**: IA3 Comprehensive Project Dossier & Working Implementation
-- **Target GCP Project ID**: `smart-water-analytics-512816`
-- **Cost Constraint**: Strict ₹0 (No paid billing or billable resources activated)
+Water quality and water scarcity require continuous monitoring and
+data-driven decision-making. This project combines water-quality
+datasets, reservoir information, data processing, machine learning, and
+interactive visualizations to help users understand water conditions and
+explore potential scarcity risks.
 
----
+## Objectives
 
-## High-Level Architecture
+-   Analyze water-quality measurements from Indian monitoring datasets.
+-   Calculate and visualize water-quality indicators.
+-   Monitor historical reservoir storage trends.
+-   Analyze rainfall and reservoir depletion patterns.
+-   Explore machine learning approaches for water scarcity prediction.
+-   Present analytical results through an interactive dashboard.
+-   Integrate Google BigQuery for cloud-based data storage and querying.
 
-```mermaid
+## Technology Stack
+
+  Component          Technologies
+  ------------------ -------------------------
+  Frontend           React, TypeScript, Vite
+  Styling            Tailwind CSS
+  Charts             Recharts
+  Backend            Python, FastAPI
+  Data processing    Pandas, NumPy
+  Machine learning   Scikit-learn, Joblib
+  Cloud analytics    Google BigQuery
+  Querying           SQL
+  Version control    Git, GitHub
+
+## System Architecture
+
+``` mermaid
 flowchart TD
-    subgraph DataSources["1. Authentic Data Sources"]
-        CPCB["CPCB NWMP (Water Quality:<br/>pH, DO, BOD, Conductivity, Nitrates, Coliform)"]
-        CWC["CWC National Water Informatics<br/>(1,747 Stations, Coordinates, FRL, MWL)"]
-        CMWSSB["CWC & CMWSSB Reservoir Data<br/>(5,738 Daily Storage & Rainfall Records)"]
-    end
-
-    subgraph Ingestion["2. Ingestion & Preprocessing"]
-        CLI["Local / Event Pipeline Engine (backend/etl/)"]
-        CRF["Cloud Run Function Trigger (cloud/function/)"]
-        Val["Schema & Physical Range Validation"]
-    end
-
-    subgraph Storage["3. Cloud Warehouse (Zero-Cost Free Tier)"]
-        GCS["Google Cloud Storage (5 GB Free Tier)<br/>gs://smart-water-analytics-raw/"]
-        BQ["Google BigQuery Sandbox (10 GB Free Storage, 1 TB Queries/mo)<br/>Dataset: smart_water_analytics"]
-        BQTables["Tables: raw_water_quality, raw_reservoirs,<br/>dim_stations, fact_water_quality, fact_reservoir_scarcity"]
-    end
-
-    subgraph AnalyticsML["4. Analytics & ML Modeling"]
-        BQSQL["BigQuery SQL Transforms (WQI Calculation, Scarcity Index)"]
-        BQML["BigQuery ML (LOGISTIC_REG & LINEAR_REG)"]
-        LocalML["Local Scikit-Learn Pipeline (RandomForest, GradientBoosting)"]
-    end
-
-    subgraph Presentation["5. Presentation & Visualization"]
-        API["FastAPI Analytical Service (Port 8000)"]
-        Web["React 18 + Vite + Tailwind CSS Dashboard (Port 3000)"]
-        Looker["Looker Studio Cloud BI Visualizer"]
-    end
-
-    CPCB --> CLI
-    CWC --> CLI
-    CMWSSB --> CLI
-    CLI --> Val
-    Val --> CRF
-    CRF --> GCS
-    Val --> BQ
-    GCS --> BQ
-    BQ --> BQSQL
-    BQSQL --> BQTables
-    BQTables --> BQML
-    BQTables --> LocalML
-    LocalML --> API
-    BQSQL --> API
-    API --> Web
-    BQTables --> Looker
+    A[Water Quality Datasets] --> C[Data Processing and ETL]
+    B[Reservoir and Rainfall Datasets] --> C
+    C --> D[Processed Datasets]
+    D --> E[Machine Learning Models]
+    D --> F[Google BigQuery Integration]
+    D --> G[FastAPI Backend]
+    E --> G
+    F --> G
+    G --> H[React Frontend]
+    H --> I[Interactive Analytics Dashboard]
 ```
 
----
+The diagram shows the intended data flow. Local CSV datasets currently
+support much of the dashboard functionality, while BigQuery integration
+is partial.
 
-## Authentic Datasets Ingested
+## Main Features
 
-1. **CPCB Indian Water Quality Monitoring** (`data/raw/cpcb_water_quality.csv`):
-   - **Source**: Central Pollution Control Board (National Water Quality Monitoring Programme)
-   - **Records**: 1,991 rows covering river basins across Indian states.
-   - **Parameters**: Station Code, Location, State, Temperature (°C), Dissolved Oxygen (mg/L), pH, Conductivity (µmhos/cm), Biochemical Oxygen Demand (B.O.D. mg/L), Nitrate + Nitrite (mg/L), Fecal Coliform, Total Coliform.
-2. **CWC Monitoring Stations & Dams** (`data/raw/cwc_monitoring_stations.csv`):
-   - **Source**: Central Water Commission (Ministry of Jal Shakti)
-   - **Records**: 1,747 stations (146 Dams/Reservoirs with Full Reservoir Level [FRL] and Maximum Water Level [MWL]).
-3. **Chennai Reservoir Historical Storage & Catchment Rainfall** (`data/raw/chennai_reservoir_levels.csv` & `chennai_reservoir_rainfall.csv`):
-   - **Source**: CMWSSB / Central Water Commission
-   - **Records**: 5,738 continuous daily observations (2004–2019) across 4 major reservoirs (Poondi, Cholavaram, Redhills, Chembarambakkam) totaling 11,057 mcft conservation capacity. Includes the historic 2019 "Day Zero" crisis.
+### Water Quality Monitoring
 
----
+-   Display water-quality information.
+-   Analyze parameters such as pH, dissolved oxygen, and biochemical
+    oxygen demand (BOD).
+-   Present water-quality indicators through visualizations.
 
-## Machine Learning Results & Benchmark Comparison
+### Reservoir Trends
 
-Trained on a strict **chronological time-series split** (2004–2016 Train: 4,719 samples; 2017–2019 Test: 982 samples during severe drought) to guarantee zero future data leakage:
+-   Explore historical reservoir storage levels.
+-   Visualize changes in water storage.
+-   Analyze reservoir and rainfall trends.
 
-### Task 1: Scarcity Risk Classification (7-Day Ahead)
-| Model | Accuracy | Weighted F1 | Macro F1 | ROC-AUC (OVR) | Status |
-| :--- | :---: | :---: | :---: | :---: | :--- |
-| **Baseline (Most Frequent)** | 0.00% | 0.0000 | 0.0000 | N/A | Naive Baseline (Fails in drought) |
-| **BigQuery ML (LOGISTIC_REG)** | **94.09%** | **0.9458** | **0.9262** | 0.9850 | Cloud In-Warehouse Model |
-| **Random Forest Classifier** | **94.20%** | **0.9478** | **0.9312** | 0.9882 | Local Production Model |
-| **Gradient Boosting** | 92.77% | 0.9375 | 0.9150 | 0.9810 | Ensemble Comparison |
+### Water Scarcity Prediction
 
-### Task 2: Continuous Reservoir Storage % Prediction (7-Day Ahead)
-| Model | MAE (% Storage) | RMSE (% Storage) | $R^2$ Score | MAPE (%) |
-| :--- | :---: | :---: | :---: | :---: |
-| **Baseline (Mean Regressor)** | 28.415% | 31.512% | -3.5814 | 158.20% |
-| **Baseline (Persistence $y_t$)** | 1.049% | 2.282% | 0.9760 | 9.80% |
-| **BigQuery ML (LINEAR_REG)** | **1.150%** | **1.940%** | **0.9826** | **8.42%** |
-| **Random Forest Regressor** | 2.189% | 4.279% | 0.9155 | 14.20% |
-| **Gradient Boosting Regressor**| 1.440% | 2.427% | 0.9728 | 10.15% |
+-   Accept reservoir and rainfall-related input parameters.
+-   Apply available machine learning or fallback prediction logic.
+-   Display an estimated scarcity-risk result.
 
----
+### Analytics Dashboard
 
-## Quickstart & Local Setup
+-   Display key performance indicators.
+-   Present charts and data visualizations.
+-   Provide pages for water quality, reservoir trends, predictions, and
+    methodology.
 
-### 1. Prerequisites
-- Python 3.11+
-- Node.js 18+ and npm
-- (Optional) Docker & Docker Compose
+### Cloud Integration
 
-### 2. Backend Setup
-```bash
-# Clone the repository
-git clone https://github.com/smart-water-analytics/smart-water-analytics.git
-cd smart-water-analytics
+-   Google BigQuery integration for cloud-based data storage and
+    querying.
+-   SQL scripts for data preparation and analytical operations.
+-   Cloud-related ingestion and deployment scripts are included in the
+    repository.
 
-# Create virtual environment and install dependencies
-python -m venv .venv
-source .venv/bin/activate  # On Windows: .venv\Scripts\activate
-pip install -r requirements.txt
+**Implementation note:** Cloud deployment services such as Cloud Run and
+Cloud Storage should not be considered active deployments unless
+separately configured and verified. Much of the current dashboard data
+is served from local CSV files.
 
-# Run ETL and feature engineering
-python backend/etl/clean_water_quality.py
-python backend/etl/clean_reservoir_data.py
-python backend/etl/build_features.py
+## Dataset Information
 
-# Train models and generate benchmark metrics
-python backend/models/train_scarcity_models.py
+The repository includes datasets related to: - CPCB water-quality
+monitoring. - CWC monitoring stations. - Chennai reservoir storage
+levels. - Chennai reservoir rainfall.
 
-# Run unit tests
-python -m unittest tests/test_raw_data.py
-python -m unittest tests/test_api_and_models.py
-
-# Start FastAPI backend
-python backend/api/main.py
-# Backend runs on http://127.0.0.1:8000
-```
-
-### 3. Frontend Setup
-In a new terminal:
-```bash
-cd frontend
-npm install
-npm run dev
-# Frontend runs on http://localhost:3000
-```
-
-### 4. Containerized Execution (Docker)
-```bash
-docker-compose up --build
-# Containerized app runs on http://localhost:8000
-```
-
----
+These datasets are used for data cleaning, analysis, feature
+engineering, and machine learning. Refer to `docs/data_dictionary.md`
+for available field descriptions and units.
 
 ## Repository Structure
 
-```text
-smart-water-analytics/
-├── .github/
-│   └── workflows/
-│       └── ci.yml                     # GitHub Actions automated test & build workflow
+``` text
+smart-water-quality-analytics/
+├── .github/workflows/
 ├── backend/
 │   ├── api/
-│   │   └── main.py                   # FastAPI REST service & live inference endpoints
 │   ├── etl/
-│   │   ├── build_features.py         # Time-lagged feature engineering pipeline
-│   │   ├── clean_reservoir_data.py   # Daily reservoir storage & rainfall aggregator
-│   │   ├── clean_water_quality.py    # CPCB cleaning & WQI calculation engine
-│   │   └── data_profiler.py          # Pre-ingestion schema profiling
-│   └── models/
-│       ├── train_scarcity_models.py  # Model training, benchmarking & serialization
-│       └── saved/                    # Serialized joblib models and evaluation metrics
+│   └── models/saved/
 ├── cloud/
-│   ├── cloud_run_deploy.sh           # GCP Cloud Run deployment script with safeguards
-│   ├── gcs_upload.py                 # Google Cloud Storage staging utility
 │   └── function/
-│       └── main.py                   # Event-driven Cloud Run Function ingestion trigger
 ├── data/
-│   ├── raw/                          # Authentic CPCB, CWC, and CMWSSB CSVs
-│   ├── processed/                    # Cleaned fact tables & feature store
-│   └── data_profile.json             # Automated profiling metadata
+│   ├── raw/
+│   └── processed/
 ├── docs/
-│   ├── architecture.md               # Cloud architecture & zero-cost feasibility
-│   ├── data_dictionary.md            # Complete schemas, ranges, and unit definitions
-│   ├── looker_studio_setup.md        # Looker Studio cloud dashboard setup guide
-│   ├── project_report.md             # 20-section academic paper for IA3 evaluation
-│   ├── presentation_outline.md       # Slide-by-slide guide for professor presentation
-│   └── demo_script.md                # Viva demo walkthrough
 ├── frontend/
-│   ├── src/
-│   │   ├── components/               # Header, Sidebar, KpiCard
-│   │   ├── pages/                    # 7 Comprehensive dashboard modules
-│   │   ├── services/                 # Typed API client
-│   │   └── types/                    # TypeScript interfaces
-│   ├── package.json
-│   ├── vite.config.ts
-│   └── tailwind.config.js
+│   └── src/
+│       ├── components/
+│       ├── pages/
+│       ├── services/
+│       └── types/
 ├── sql/
-│   ├── 01_create_tables.sql          # BigQuery Sandbox DDL with partitioning & clustering
-│   ├── 02_etl_water_quality.sql      # In-warehouse WQI computation SQL
-│   ├── 03_etl_reservoir_scarcity.sql # Window functions for rolling depletion dynamics
-│   └── 04_ml_models.sql              # BigQuery ML LOGISTIC_REG and LINEAR_REG models
 ├── tests/
-│   ├── test_raw_data.py              # Unit tests for raw datasets & schema bounds
-│   └── test_api_and_models.py        # Integration tests for API routes & ML predictions
-├── .env.example                      # Safe environment variables template
+├── .env.example
 ├── .gitignore
-├── Dockerfile                        # Multi-stage production container build
+├── Dockerfile
 ├── docker-compose.yml
 ├── requirements.txt
 └── README.md
 ```
 
----
+## Installation and Setup
 
-## Cost and Zero-Cost Compliance
+### Prerequisites
 
-This project strictly adheres to the ₹0 budget constraint:
-1. **Google BigQuery Sandbox**: 10 GB active storage and 1 TB query processing free monthly without credit card activation.
-2. **BigQuery ML**: Standard logistic and linear regressions run within free query processing quota.
-3. **Google Cloud Storage**: Up to 5 GB-months regional storage under Always Free tier.
-4. **Looker Studio**: 100% free cloud business intelligence visualizer.
-5. **Local Container Emulation**: Local Docker execution mirrors Cloud Run without triggering cloud build charges.
+-   Python 3.11 or later
+-   Node.js 18 or later
+-   npm
+-   Git
+
+### 1. Clone the Repository
+
+``` powershell
+git clone https://github.com/obi9905/smart-water-quality-analytics.git
+cd smart-water-quality-analytics
+```
+
+### 2. Backend Setup
+
+Create a virtual environment:
+
+``` powershell
+python -m venv .venv
+```
+
+Activate it in Windows PowerShell:
+
+``` powershell
+.\.venv\Scripts\Activate.ps1
+```
+
+Install dependencies:
+
+``` powershell
+pip install -r requirements.txt
+```
+
+Start FastAPI:
+
+``` powershell
+python -m uvicorn backend.api.main:app --reload --host 127.0.0.1 --port 8000
+```
+
+-   Backend: http://127.0.0.1:8000
+-   API documentation: http://127.0.0.1:8000/docs
+
+### 3. Frontend Setup
+
+Open a second terminal:
+
+``` powershell
+cd frontend
+npm install
+npm run dev
+```
+
+Open the **Local** URL printed by Vite. The port may vary depending on
+availability.
+
+### 4. Optional: Docker
+
+If Docker and Docker Compose are installed and the configuration is
+ready for your environment:
+
+``` powershell
+docker-compose up --build
+```
+
+## Machine Learning
+
+The repository includes model training code and saved model artifacts
+for scarcity-related analysis, including: - Scarcity classification
+model. - Reservoir storage regression model. - Feature scaler. - Model
+evaluation metrics. - Model training and feature-engineering scripts.
+
+Use the saved evaluation metrics and actual test results when reporting
+model performance. Verify the generated evaluation output before quoting
+specific accuracy figures.
+
+## Team Members
+
+1.  John Obeth
+2.  Rokith
+3.  Thasarathan
+4.  Jeffery Dan J
+
+## Future Enhancements
+
+-   Complete and verify cloud-based data ingestion.
+-   Deploy the backend and frontend to cloud hosting.
+-   Integrate live water-quality monitoring data.
+-   Improve machine learning validation and prediction performance.
+-   Add alerts for potential water scarcity.
+-   Expand the dashboard with additional analytics.
+
+## Academic Project
+
+**Project:** Smart Water Quality & Scarcity Analytics\
+**Course:** Cloud Computing for Data Analytics\
+**Cloud platform:** Google Cloud Platform --- BigQuery integration
+
+------------------------------------------------------------------------
+
+Developed as an academic team project.
